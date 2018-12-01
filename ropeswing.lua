@@ -11,7 +11,6 @@ function shootRope()
     for i = 1, #boxes do
         box = boxes[i].box
         hit,dist,x,y = box:hitBy(mouseLine)
-        --pos = {x = 0, y = 0}
         if hit then
             if not foundHit then
                 foundHit = true
@@ -31,6 +30,7 @@ function shootRope()
         objects.rope.body = love.physics.newBody(world, xPos, yPos, "static")
         objects.rope.length = distance(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos, objects.rope.length)
+        shoot:play()
         readyToDraw = true
     end
 end

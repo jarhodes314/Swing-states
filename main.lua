@@ -10,14 +10,18 @@ function love.load()
     love.window.setFullscreen(true)
     windowWidth = love.graphics.getWidth()
     windowHeight = love.graphics.getHeight()
+    background = love.graphics.newImage("background.jpg")
     initialiseGlobalVariables()
     initialisePhysicsVariables()
     --loadGraphics()
     generateBoxes(nw, nh, windowWidth, windowHeight)
+    music = love.audio.newSource("bgm.mp3", 'stream')
+    music:setLooping(true)
+    music:play()
+    shoot = love.audio.newSource("shoot.wav", 'static')
 end
 
 function love.update(dt)
-    --If left mouse button is pressed, try to rope swing
 
     world:update(dt)
 
@@ -25,7 +29,11 @@ function love.update(dt)
     if contractingRope and readyToDraw then
         objects.rope.length = objects.rope.length - 3
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), objects.rope.length)
+        if objects.rope.length < 15 then
+            removeRope()
+        end
     end
+
 
     if love.mouse.isDown(1) then
         contractingRope = true
@@ -34,7 +42,7 @@ function love.update(dt)
     end
     --Cut rope if mouse has crossed rope
     xNewMouse, yNewMouse = love.mouse.getPosition()
-    if readyToDraw then
+    if readyToDraw and distance(xNewMouse, yNewMouse, objects.rope.body:getX(), objects.rope.body:getY()) > 15 then
         cross, xCross, yCross = segmentIntersection(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), xPriorMouse, yPriorMouse, xNewMouse, yNewMouse)
         if cross then
             removeRope()
@@ -45,10 +53,22 @@ function love.update(dt)
     xPriorMouse = xNewMouse
     yPriorMouse = yNewMouse
 
+    --Update globalTime
+    globalTime = globalTime + 0.01
+    baseSpeed = 5 + globalTime
+
+    if (objects.ball.body:getX() < 960) then
+        globalHspeed = baseSpeed
+    else
+        hspeed, vspeed = objects.ball.body:getLinearVelocity()
+        globalHspeed = hspeed
+    end
+
 
 end
 
 function love.draw()
+    love.graphics.draw(background, 0,0)
     updatePosition()
     drawBoxes()
     if readyToDraw then
@@ -118,4 +138,7 @@ function initialiseGlobalVariables()
     contractingRope = false
     xPriorMouse = 0
     yPriorMouse = 0
+    globalHspeed = 5
+    baseSpeed = 5
+    globalTime = 0
 end
