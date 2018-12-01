@@ -48,7 +48,7 @@ function Box:hitBy(line)
             p1 = edge.p
             p2 = vecPlus(edge.p, edge.d)
             p3 = line.p
-            p4 = vecPlus(line.p,vecScale(line.d,10000)) 
+            p4 = vecPlus(line.p,vecScale(line.d,1000000000)) 
             intersects,x,y = segmentIntersection(p1.x, p1.y,
                                                  p2.x, p2.y,
                                                  p3.x, p3.y,

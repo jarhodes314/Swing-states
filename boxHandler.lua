@@ -43,6 +43,9 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
                         colliding = true
                     end
                 end
+                if colliding then
+                    box.b:destroy()
+                end
             end
             box.box.color = Color:new(1,0,0)
             table.insert(boxes,box)
@@ -55,7 +58,6 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
     box.b = love.physics.newBody(world, wOffset, hOffset - 100, "static")
     box.s = love.physics.newRectangleShape(w, 0)
     box.f = love.physics.newFixture(box.b, box.s)
-    print(w)
     box.box = Box:new(wOffset, hOffset - 100, w, 1)
     box.f:setUserData("Box")
     
