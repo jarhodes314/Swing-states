@@ -19,7 +19,7 @@ function love.load()
     generateBoxes(nw, nh, windowWidth, windowHeight, windowWidth, 0)
     music = love.audio.newSource("bgm.mp3", 'stream')
     music:setLooping(true)
-    music:play()
+    love.audio.play(music)
     shoot = love.audio.newSource("shoot.wav", 'static')
     Font = love.graphics.newFont("font.ttf", 18)
     love.graphics.setFont(Font)
@@ -51,7 +51,7 @@ function love.update(dt)
     xNewMouse = xNewMouse - globalHOffset
     if readyToDraw and distance(xNewMouse, yNewMouse, objects.rope.body:getX(), objects.rope.body:getY()) > 15 then
         cross, xCross, yCross = segmentIntersection(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), xPriorMouse, yPriorMouse, xNewMouse, yNewMouse)
-        if cross then
+        if cross and globalTime - startTime > 0.2 then
             removeRope()
         end
     end
@@ -130,6 +130,7 @@ end
 
 function love.mousepressed(x,y,button, istouch, presses)
     if loss then
+        love.audio.stop(music)
         love.load()
     elseif presses == 2 then
         removeRope()
@@ -193,6 +194,8 @@ function initialiseGlobalVariables()
     globalTime = 0
     boxScreens = 2
     ropeExists = false
+
+    startTime = 0
 
     loss = false
 
