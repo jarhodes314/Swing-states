@@ -18,7 +18,7 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
     local cellHeight = h / nh
     n = nw * nh
     for i = 0, n - 1 do
-        if math.random() > 1/3 then
+        if math.random() > 1/5 then
             box = {}
             row = math.floor(i / nw)
             col = i % nw
@@ -29,8 +29,8 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
                 colliding = false
                 local x = cellWidth * math.random() + left
                 local y = cellHeight * math.random() + top
-                local width = cellWidth * math.random()
-                local height = cellHeight * math.random() / 2
+                local width = cellWidth * math.random(0.3,0.5)
+                local height = cellHeight * math.random(0.2,0.4)
                 local xx = math.floor(x + width / 2)
                 local yy = math.floor(y + height / 2)
                 box.b = love.physics.newBody(world, xx, yy, "static")
@@ -48,9 +48,6 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
                 end
             end
             box.box.color = Color:new(1,0,0)
-            table.insert(boxes,box)
-        else
-            box.box = Box:new(0,0,0,0)
             table.insert(boxes,box)
         end
     end

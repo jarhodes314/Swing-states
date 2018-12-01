@@ -7,7 +7,7 @@ function shootRope(x,y)
     yPos = y or yPos
     ballX = objects.ball.body:getX()
     ballY = objects.ball.body:getY()
-    mouseLine = { p = {x = ballX, y = ballY}, d = {x = windowWidth * (xPos - ballX), y = windowWidth * (yPos - ballY)} }
+    mouseLine = { p = {x = ballX, y = ballY}, d = {x = windowWidth * (xPos - ballX) * windowHeight, y = windowWidth * (yPos - ballY) * windowHeight} }
     foundHit = false
     minDist = 0
     anchorx = 0
