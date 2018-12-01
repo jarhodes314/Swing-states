@@ -22,6 +22,7 @@ function love.load()
     shoot = love.audio.newSource("shoot.wav", 'static')
     Font = love.graphics.newFont("font.ttf", 18)
     love.graphics.setFont(Font)
+    FontLarge = love.graphics.newFont("font.ttf", 72)
     world:setCallbacks(beginContact)
 end
 
@@ -104,13 +105,20 @@ function love.draw()
     love.graphics.setColor(1,1,1)
     love.graphics.print("Score: " .. score, 30, 30)
 
-    if loss then
-        love.graphics.print("You lose", 300,300)
-    end
-
     if (objects.ball.body:getX() <= -100) or (objects.ball.body:getY() >= 1180) then
         loss = true
     end
+
+
+    if loss then
+        love.graphics.setFont(FontLarge)
+        love.graphics.print("You lose", 800,300)
+        love.graphics.print("Final score: " .. score, 800, 400)
+        love.graphics.setFont(Font)
+        love.graphics.print("Press the mouse button to restart", 800, 500)
+        love.load()
+    end
+
 end
 
 
