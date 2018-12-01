@@ -2,6 +2,7 @@ require "lib"
 require "color"
 
 boxes = {}
+box = {}
 math.randomseed(os.time())
 
 local function boxAABB(box1, box2)
@@ -17,8 +18,8 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
     local cellHeight = h / nh
     n = nw * nh
     for i = 0, n - 1 do
-        box = {}
         if math.random() > 1/3 then
+            box = {}
             row = math.floor(i / nw)
             col = i % nw
             local left = math.floor(col * cellWidth) + wOffset
@@ -50,6 +51,15 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
             table.insert(boxes,box)
         end
     end
+    box = {}
+    box.b = love.physics.newBody(world, wOffset, hOffset - 100, "static")
+    box.s = love.physics.newRectangleShape(w, 0)
+    box.f = love.physics.newFixture(box.b, box.s)
+    print(w)
+    box.box = Box:new(wOffset, hOffset - 100, w, 1)
+    box.f:setUserData("Box")
+    
+    table.insert(boxes,box)
 end
 
 function drawBoxes()

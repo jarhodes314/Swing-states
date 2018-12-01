@@ -7,13 +7,14 @@ require "ropeswing"
 function love.load()
     nw = 3
     nh = 3
+    boxes = {}
     love.window.setFullscreen(true)
     windowWidth = love.graphics.getWidth()
     windowHeight = love.graphics.getHeight()
     background = love.graphics.newImage("background.jpg")
     initialiseGlobalVariables()
     initialisePhysicsVariables()
-    --loadGraphics()
+    generateBoxes(0, 0, windowWidth * 1 / 3, windowHeight, 0, 0)
     generateBoxes(nw - 1, nh, windowWidth * 2 / 3, windowHeight, windowWidth / 3, 0)
     generateBoxes(nw, nh, windowWidth, windowHeight, windowWidth, 0)
     music = love.audio.newSource("bgm.mp3", 'stream')
@@ -32,7 +33,7 @@ function love.update(dt)
 
     --Contract rope if condition set
     if contractingRope and readyToDraw then
-        objects.rope.length = objects.rope.length - 3 - acceleration
+        objects.rope.length = objects.rope.length - 3 - baseSpeed * dt * 0.05
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), objects.rope.length)
         if objects.rope.length < 15 then
             removeRope()
@@ -61,7 +62,7 @@ function love.update(dt)
 
     --Update globalTime
     globalTime = globalTime + 0.01
-    baseSpeed = baseSpeed + acceleration
+    baseSpeed = baseSpeed + acceleration * dt
 
     if (objects.ball.body:getX() < 960) then
         globalHspeed = baseSpeed
@@ -89,11 +90,11 @@ function love.update(dt)
         generateBoxes(nw,nh,windowWidth,windowHeight, windowWidth * boxScreens,0)
         boxScreens = boxScreens + 1
     end
+    globalHOffset = globalHOffset - globalHspeed * dt
 end
 
 function love.draw()
     love.graphics.draw(background, 0,0)
-    globalHOffset = globalHOffset - globalHspeed
     love.graphics.translate(globalHOffset,0)
     updatePosition()
     drawBoxes()
@@ -116,7 +117,6 @@ function love.draw()
         love.graphics.print("Final score: " .. score, 800, 400)
         love.graphics.setFont(Font)
         love.graphics.print("Press the mouse button to restart", 800, 500)
-        love.load()
     end
 
 end
@@ -129,7 +129,9 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x,y,button, istouch, presses)
-    if presses == 2 then
+    if loss then
+        love.load()
+    elseif presses == 2 then
         removeRope()
     elseif button == 1 then
         if not readyToDraw then
@@ -186,8 +188,8 @@ function initialiseGlobalVariables()
 
     globalHspeed = 5
     globalHOffset = 0
-    baseSpeed = 1
-    acceleration = 0.001
+    baseSpeed = 200
+    acceleration = 0.1
     globalTime = 0
     boxScreens = 2
     ropeExists = false

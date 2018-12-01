@@ -71,7 +71,9 @@ function Box:hitBy(line)
         end
         x = minIntersection[2][1]
         y = minIntersection[2][2]
-        return true, minIntersection[1], x, y
+        if x > -globalHOffset and x < windowWidth - globalHOffset then
+            return true, minIntersection[1], x, y
+        end
     end
     return false
 end
