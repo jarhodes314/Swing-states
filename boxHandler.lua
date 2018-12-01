@@ -29,8 +29,9 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
                 colliding = false
                 local x = cellWidth * math.random() + left
                 local y = cellHeight * math.random() + top
-                local width = cellWidth * math.random(0.3,0.5)
-                local height = cellHeight * math.random(0.2,0.4)
+                size = math.min(cellWidth, cellHeight)
+                local width = size * math.random(0.3,0.5)
+                local height = size * math.random(0.2,0.4)
                 local xx = math.floor(x + width / 2)
                 local yy = math.floor(y + height / 2)
                 box.b = love.physics.newBody(world, xx, yy, "static")
