@@ -5,14 +5,15 @@ require "boxHandler"
 require "ropeswing"
 
 function love.load()
-    windowWidth = 1920
-    windowHeight = 1080
-    love.window.setMode(windowWidth, windowHeight)
+    nw = 3
+    nh = 3
     love.window.setFullscreen(true)
+    windowWidth = love.graphics.getWidth() 
+    windowHeight = love.graphics.getHeight()
     initialiseGlobalVariables()
     initialisePhysicsVariables()
-    generateBoxes(3, 3, windowWidth, windowHeight)
-    initialisePhysicsVariables();
+    --loadGraphics()
+    generateBoxes(nw, nh, windowWidth, windowHeight)
 end
 
 function love.update(dt)
@@ -30,9 +31,6 @@ function love.draw()
     updatePosition()
 
     drawBoxes()
-    for i=1,#boxes do
-        boxes[i]:draw()
-    end
     if readyToDraw then
         drawRope()
     end
