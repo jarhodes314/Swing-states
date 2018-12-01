@@ -25,7 +25,11 @@ function love.update(dt)
     if contractingRope and readyToDraw then
         objects.rope.length = objects.rope.length - 3
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), objects.rope.length)
+        if objects.rope.length < 5 then
+            removeRope()
+        end
     end
+
 
     if love.mouse.isDown(1) then
         contractingRope = true
@@ -34,7 +38,7 @@ function love.update(dt)
     end
     --Cut rope if mouse has crossed rope
     xNewMouse, yNewMouse = love.mouse.getPosition()
-    if readyToDraw then
+    if readyToDraw and distance(xNewMouse, yNewMouse, objects.rope.body:getX(), objects.rope.body:getY()) > 5 then
         cross, xCross, yCross = segmentIntersection(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), xPriorMouse, yPriorMouse, xNewMouse, yNewMouse)
         if cross then
             removeRope()
@@ -50,9 +54,6 @@ end
 
 function love.draw()
     updatePosition()
-    if cross then
-        love.graphics.print("Hello World!", 400, 300)
-    end
     drawBoxes()
     if readyToDraw then
         drawRope()
