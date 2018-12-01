@@ -15,6 +15,8 @@ function Box:draw()
     else
         love.graphics.setColor(0, 0.5, 0.5)
     end
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height, 3, 3)
+    love.graphics.setColor(0.8, 0.8, 0.8)
+    love.graphics.rectangle("line", self.x, self.y, self.width, self.height, 3, 3)
     love.graphics.setColor(1, 1, 1)
 end

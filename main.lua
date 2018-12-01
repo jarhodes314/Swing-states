@@ -53,6 +53,17 @@ function love.update(dt)
     xPriorMouse = xNewMouse
     yPriorMouse = yNewMouse
 
+    --Update globalTime
+    globalTime = globalTime + 0.01
+    baseSpeed = 5 + globalTime
+
+    if (objects.ball.body:getX() < 960) then
+        globalHspeed = baseSpeed
+    else
+        hspeed, vspeed = objects.ball.body:getLinearVelocity()
+        globalHspeed = hspeed
+    end
+
 
 end
 
@@ -127,4 +138,7 @@ function initialiseGlobalVariables()
     contractingRope = false
     xPriorMouse = 0
     yPriorMouse = 0
+    globalHspeed = 5
+    baseSpeed = 5
+    globalTime = 0
 end
