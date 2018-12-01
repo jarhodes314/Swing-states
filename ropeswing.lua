@@ -4,6 +4,7 @@ function shootRope()
     objects.rope.body = love.physics.newBody(world, xPos, yPos, "static")
     objects.rope.length = distance(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
     objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos, objects.rope.length)
+    shoot:play()
     readyToDraw = true
 end
 
