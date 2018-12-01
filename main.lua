@@ -9,27 +9,29 @@ function love.load()
     windowHeight = 1080
     love.window.setMode(windowWidth, windowHeight)
     love.window.setFullscreen(true)
-    initialisePhysicsVariables()
     initialiseGlobalVariables()
-    loadGraphics()
+    initialisePhysicsVariables()
     generateBoxes(3, 3, windowWidth, windowHeight)
+    initialisePhysicsVariables();
 end
 
 function love.update(dt)
-    gravity()
-
     --If left mouse button is pressed, try to rope swing
     if love.mouse.isDown(1) then
-        shootRope()
+        if not readyToDraw then
+            shootRope()
+        else
+            removeRope()
+        end
     end
+    world:update(dt)
+
 end
 
 function love.draw()
     updatePosition()
+
     drawBoxes()
-    if down then
-	    love.graphics.print("Hello World!", 400, 300)
-    end
     for i=1,#boxes do
         boxes[i]:draw()
     end
@@ -38,9 +40,6 @@ function love.draw()
     end
 end
 
-function loadGraphics()
-    player.sprite = love.graphics.newImage("player.jpg")
-end
 
 function love.keypressed(key)
     if key == "escape" then
@@ -49,5 +48,8 @@ function love.keypressed(key)
 end
 
 function initialiseGlobalVariables()
+    love.physics.setMeter(64)
+    world = love.physics.newWorld(0,9.81*64,true)
+    objects = {}
     readyToDraw = false
 end

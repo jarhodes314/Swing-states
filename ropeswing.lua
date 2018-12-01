@@ -1,18 +1,31 @@
-rope = { }
-
 function shootRope()
-    xTemp, yTemp = love.mouse.getPosition()
-    rope.x1, rope.y1, rope.x2, rope.y2 = extendLine(player.xPosition+4, player.yPosition+4, xTemp, yTemp)
-    rope.length = distance(rope.x1,rope.y1,rope.x2,rope.y2)
+    objects.rope = { }
+    xPos, yPos = love.mouse.getPosition()
+    objects.rope.body = love.physics.newBody(world, xPos, yPos, "static")
+    objects.rope.length = distance(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
+    objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos, objects.rope.length)
     readyToDraw = true
 end
 
+function removeRope()
+    readyToDraw = false
+    objects.rope.body:destroy()
+    objects.rope.joint:destroy()
+end
+
 function drawRope()
-    love.graphics.line(rope.x1,rope.y1,rope.x2,rope.y2)
+    love.graphics.line(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
 end
 
 function extendLine(x1,y1,x2,y2)
     return x1,y1,x1+(x2-x1)*100, y1+(y2-y1)*100
+end
+
+function checkExtended()
+    if distance(player.physics:getX(), player.physics:getY(), rope.x2, rope.y2) >= rope.length then
+        ropeExtended = true
+    else ropeExtended = false
+    end
 end
 
 --Check whether a line intersects with a box
