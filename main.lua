@@ -73,9 +73,15 @@ function love.update(dt)
         end
     end
 
+    if loss then
+        globalHspeed = 0
+    end
+
     --Update score (max x value)
     if objects.ball.body:getX() > score then
-        score = math.floor(objects.ball.body:getX())
+        if not loss then
+            score = math.floor(objects.ball.body:getX())
+        end
     end
 
     if (boxScreens - 1) * windowWidth < -globalHOffset then
