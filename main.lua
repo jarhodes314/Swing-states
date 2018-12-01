@@ -8,7 +8,7 @@ function love.load()
     nw = 3
     nh = 3
     love.window.setFullscreen(true)
-    windowWidth = love.graphics.getWidth() 
+    windowWidth = love.graphics.getWidth()
     windowHeight = love.graphics.getHeight()
     initialiseGlobalVariables()
     initialisePhysicsVariables()
@@ -18,11 +18,7 @@ end
 
 function love.update(dt)
     --If left mouse button is pressed, try to rope swing
-    if love.mouse.isDown(1) then
-        if not readyToDraw then
-            shootRope()
-        end
-    end
+
     world:update(dt)
 
 end
@@ -43,10 +39,25 @@ function love.keypressed(key)
     end
 end
 
+function love.mousepressed(x,y,button, istouch, presses)
+    if presses == 2 then
+        removeRope()
+    elseif button == 1 then
+        if not readyToDraw then
+            shootRope()
+        else
+            contractingRope = true
+        end
+    end
+end
+
+
 
 function initialiseGlobalVariables()
     love.physics.setMeter(64)
     world = love.physics.newWorld(0,9.81*64,true)
     objects = {}
     readyToDraw = false
+    contractingRope = false
+
 end
