@@ -56,9 +56,9 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
     box.s = love.physics.newRectangleShape(w, 0)
     box.f = love.physics.newFixture(box.b, box.s)
     print(w)
-    box.box = Box:new(wOffset, hOffset - 100, w, 1)
+    box.box = Box:new(wOffset-500, hOffset - 100, w, 1)
     box.f:setUserData("Box")
-    
+
     table.insert(boxes,box)
 end
 
