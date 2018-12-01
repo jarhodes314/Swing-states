@@ -21,6 +21,11 @@ function love.update(dt)
 
     world:update(dt)
 
+    if contractingRope and readyToDraw then
+        objects.rope.length = objects.rope.length - 3
+        objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), objects.rope.length)
+    end
+
 end
 
 function love.draw()
@@ -51,6 +56,11 @@ function love.mousepressed(x,y,button, istouch, presses)
     end
 end
 
+function love.mousereleased(x,y,button)
+    if button == 1 then
+        contractingRope = false
+    end
+end
 
 
 function initialiseGlobalVariables()
