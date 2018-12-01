@@ -43,9 +43,6 @@ function generateBoxes(nw, nh, w, h, wOffset, hOffset)
                         colliding = true
                     end
                 end
-                if colliding then
-                    box.b:destroy()
-                end
             end
             box.box.color = Color:new(1,0,0)
             table.insert(boxes,box)
