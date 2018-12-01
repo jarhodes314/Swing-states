@@ -19,6 +19,8 @@ function love.load()
     music:setLooping(true)
     music:play()
     shoot = love.audio.newSource("shoot.wav", 'static')
+    Font = love.graphics.newFont("font.ttf", 18)
+    love.graphics.setFont(Font)
 end
 
 function love.update(dt)
@@ -27,7 +29,7 @@ function love.update(dt)
 
     --Contract rope if condition set
     if contractingRope and readyToDraw then
-        objects.rope.length = objects.rope.length - 3
+        objects.rope.length = objects.rope.length - 3 - acceleration
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), objects.rope.length)
         if objects.rope.length < 15 then
             removeRope()
@@ -42,6 +44,7 @@ function love.update(dt)
     end
     --Cut rope if mouse has crossed rope
     xNewMouse, yNewMouse = love.mouse.getPosition()
+    xNewMouse = xNewMouse - globalHOffset
     if readyToDraw and distance(xNewMouse, yNewMouse, objects.rope.body:getX(), objects.rope.body:getY()) > 15 then
         cross, xCross, yCross = segmentIntersection(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), xPriorMouse, yPriorMouse, xNewMouse, yNewMouse)
         if cross then
@@ -55,25 +58,38 @@ function love.update(dt)
 
     --Update globalTime
     globalTime = globalTime + 0.01
-    baseSpeed = 5 + globalTime
+    baseSpeed = baseSpeed + acceleration
 
     if (objects.ball.body:getX() < 960) then
         globalHspeed = baseSpeed
     else
         hspeed, vspeed = objects.ball.body:getLinearVelocity()
-        globalHspeed = hspeed
+        if hspeed > 0 then
+            globalHspeed = baseSpeed
+        else
+            globalHspeed = baseSpeed
+        end
     end
 
-
+    --Update score (max x value)
+    if (objects.ball.body:getX() > score) then
+        score = math.floor(objects.ball.body:getX())
+    end
 end
 
 function love.draw()
     love.graphics.draw(background, 0,0)
+    globalHOffset = globalHOffset - globalHspeed
+    love.graphics.translate(globalHOffset,0)
     updatePosition()
     drawBoxes()
     if readyToDraw then
         drawRope()
     end
+    --globalHOffset = globalHOffset - globalHspeed
+    love.graphics.translate(-globalHOffset,0)
+    love.graphics.setColor(1,1,1)
+    love.graphics.print("Score: " .. score, 30, 30)
 end
 
 
@@ -138,7 +154,12 @@ function initialiseGlobalVariables()
     contractingRope = false
     xPriorMouse = 0
     yPriorMouse = 0
+
     globalHspeed = 5
-    baseSpeed = 5
+    globalHOffset = 0
+    baseSpeed = 1
+    acceleration = 0.001
     globalTime = 0
+
+    score = 0
 end
