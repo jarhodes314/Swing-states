@@ -32,6 +32,7 @@ function shootRope()
         objects.rope.length = distance(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos, objects.rope.length)
         shoot:play()
+        ropeExists = true
         readyToDraw = true
     end
 end
@@ -39,7 +40,8 @@ end
 function removeRope()
     readyToDraw = false
     contractingRope = false
-    if objects.rope.body ~= nil then
+    if ropeExists and objects.rope.body ~= nil then
+        ropeExists = false
         objects.rope.body:destroy()
     end
 end

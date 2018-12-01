@@ -14,7 +14,8 @@ function love.load()
     initialiseGlobalVariables()
     initialisePhysicsVariables()
     --loadGraphics()
-    generateBoxes(nw, nh, windowWidth, windowHeight)
+    generateBoxes(nw, nh, windowWidth, windowHeight, 0, 0)
+    generateBoxes(nw, nh, windowWidth, windowHeight, windowWidth, 0)
     music = love.audio.newSource("bgm.mp3", 'stream')
     music:setLooping(true)
     music:play()
@@ -72,8 +73,13 @@ function love.update(dt)
     end
 
     --Update score (max x value)
-    if (objects.ball.body:getX() > score) then
+    if objects.ball.body:getX() > score then
         score = math.floor(objects.ball.body:getX())
+    end
+
+    if (boxScreens - 1) * windowWidth < -globalHOffset then
+        generateBoxes(nw,nh,windowWidth,windowHeight, windowWidth * boxScreens,0)
+        boxScreens = boxScreens + 1
     end
 end
 
@@ -160,6 +166,8 @@ function initialiseGlobalVariables()
     baseSpeed = 1
     acceleration = 0.001
     globalTime = 0
+    boxScreens = 2
+    ropeExists = false
 
     score = 0
 end

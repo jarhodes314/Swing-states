@@ -10,7 +10,9 @@ local function boxAABB(box1, box2)
                 box2.x, box2.y, box2.width, box2.height)
 end
 
-function generateBoxes(nw, nh, w, h)
+function generateBoxes(nw, nh, w, h, wOffset, hOffset)
+    wOffset = wOffset or 0
+    hOffset = hOffset or 0
     local cellWidth = w / nw
     local cellHeight = h / nh
     n = nw * nh
@@ -19,8 +21,8 @@ function generateBoxes(nw, nh, w, h)
         if math.random() > 1/3 then
             row = math.floor(i / nw)
             col = i % nw
-            local left = math.floor(col * cellWidth) 
-            local top = math.floor(row * cellHeight)
+            local left = math.floor(col * cellWidth) + wOffset
+            local top = math.floor(row * cellHeight) + hOffset
             local colliding = true
             while colliding do
                 colliding = false
@@ -35,17 +37,17 @@ function generateBoxes(nw, nh, w, h)
                 box.f = love.physics.newFixture(box.b, box.s)
                 box.box = Box:new(x, y, width, height)
                 box.f:setUserData("Box")
-                for j = 1, i do
+                for j = 1, #boxes do
                     if boxAABB(box.box, boxes[j].box) then
                         colliding = true
                     end
                 end
             end
             box.box.color = Color:new(1,0,0)
-            boxes[i + 1] = box
+            table.insert(boxes,box)
         else
-            boxes[i + 1] = box
-            boxes[i + 1].box = Box:new(0,0,0,0)
+            box.box = Box:new(0,0,0,0)
+            table.insert(boxes,box)
         end
     end
 end
