@@ -50,9 +50,6 @@ end
 
 function love.draw()
     updatePosition()
-    if cross then
-        love.graphics.print("Hello World!", 400, 300)
-    end
     drawBoxes()
     if readyToDraw then
         drawRope()
@@ -83,34 +80,34 @@ function love.mousereleased(x,y,button)
 end
 
 function segmentIntersection(s1x1, s1y1, s1x2, s1y2, s2x1, s2y1, s2x2, s2y2)
-	-- compensate for horizontal & verticle lines
-	local eps = 0.0001
-	if s1x1 == s1x2 then s1x2 = s1x2 + eps end
-	if s1y1 == s1y2 then s1y2 = s1y2 + eps end
-	if s2x1 == s2x2 then s2x2 = s2x2 + eps end
-	if s2y1 == s2y2 then s2y2 = s2y2 + eps end
-	-- fit linear equation to line segments
-	local slope1 = ( s1y2 - s1y1 ) / ( s1x2 - s1x1 )	-- line1 slope
-	local slope2 = ( s2y2 - s2y1 ) / ( s2x2 - s2x1 )	-- line2 slope
-	local int1	 = s1y1 - slope1 * s1x1		-- line1 intercept
-	local int2	 = s2y1 - slope2 * s2x1		-- line2 intercept
-	-- intercept coordinates
-	if slope1 == slope2 then slope1 = slope1 + eps end	-- avoid div by zero
-	local x = ( int2 - int1 ) / ( slope1 - slope2 )
-	local y = slope2 * x + int2
-	-- check order of points
-	if s1x1 > s1x2 then s1x1, s1x2 = s1x2, s1x1 end
-	if s1y1 > s1y2 then s1y1, s1y2 = s1y2, s1y1 end
-	if s2x1 > s2x2 then s2x1, s2x2 = s2x2, s2x1 end
-	if s2y1 > s2y2 then s2y1, s2y2 = s2y2, s2y1 end
-	-- check if contact point is on both line segments
-	if  x >= s1x1 and x <= s1x2 and x >= s2x1 and x <= s2x2 and
-		y >= s1y1 and y <= s1y2 and y >= s2y1 and y <= s2y2 then
-		return true, x, y
-		else
-		return false, x, y
-		end
-	end
+    -- compensate for horizontal & vertical lines
+    local eps = 0.0001
+    if s1x1 == s1x2 then s1x2 = s1x2 + eps end
+    if s1y1 == s1y2 then s1y2 = s1y2 + eps end
+    if s2x1 == s2x2 then s2x2 = s2x2 + eps end
+    if s2y1 == s2y2 then s2y2 = s2y2 + eps end
+    -- fit linear equation to line segments
+    local slope1 = ( s1y2 - s1y1 ) / ( s1x2 - s1x1 )	-- line1 slope
+    local slope2 = ( s2y2 - s2y1 ) / ( s2x2 - s2x1 )	-- line2 slope
+    local int1	 = s1y1 - slope1 * s1x1		-- line1 intercept
+    local int2	 = s2y1 - slope2 * s2x1		-- line2 intercept
+    -- intercept coordinates
+    if slope1 == slope2 then slope1 = slope1 + eps end	-- avoid div by zero
+    local x = ( int2 - int1 ) / ( slope1 - slope2 )
+    local y = slope2 * x + int2
+    -- check order of points
+    if s1x1 > s1x2 then s1x1, s1x2 = s1x2, s1x1 end
+    if s1y1 > s1y2 then s1y1, s1y2 = s1y2, s1y1 end
+    if s2x1 > s2x2 then s2x1, s2x2 = s2x2, s2x1 end
+    if s2y1 > s2y2 then s2y1, s2y2 = s2y2, s2y1 end
+    -- check if contact point is on both line segments
+    if  x >= s1x1 and x <= s1x2 and x >= s2x1 and x <= s2x2 and
+        y >= s1y1 and y <= s1y2 and y >= s2y1 and y <= s2y2 then
+        return true, x, y
+    else
+        return false, x, y
+    end
+end
 
 
 function initialiseGlobalVariables()

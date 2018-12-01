@@ -1,10 +1,38 @@
 function shootRope()
     objects.rope = { }
     xPos, yPos = love.mouse.getPosition()
-    objects.rope.body = love.physics.newBody(world, xPos, yPos, "static")
-    objects.rope.length = distance(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
-    objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos, objects.rope.length)
-    readyToDraw = true
+    ballX = objects.ball.body:getX()
+    ballY = objects.ball.body:getY()
+    mouseLine = { p = {x = ballX, y = ballY}, d = {x = xPos - ballX, y = yPos - ballY} }
+    foundHit = false
+    minDist = 0
+    anchorx = 0
+    anchory = 0
+    for i = 1, #boxes do
+        box = boxes[i].box
+        hit,dist,x,y = box:hitBy(mouseLine)
+        --pos = {x = 0, y = 0}
+        if hit then
+            if not foundHit then
+                foundHit = true
+                minDist = dist
+                anchorx = x
+                anchory = y
+            elseif dist < minDist then
+                minDist = dist
+                anchorx = x
+                anchory = y
+            end
+        end
+    end
+    if foundHit then
+        xPos = anchorx
+        yPos = anchory
+        objects.rope.body = love.physics.newBody(world, xPos, yPos, "static")
+        objects.rope.length = distance(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
+        objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos, objects.rope.length)
+        readyToDraw = true
+    end
 end
 
 function removeRope()
