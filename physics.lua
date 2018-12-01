@@ -1,7 +1,6 @@
 player = { }
 
-
-function initialiseVariables()
+function initialisePhysicsVariables()
     player.hspeed = 0
     player.vspeed = 0
     player.xPosition = 200
