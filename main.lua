@@ -109,11 +109,13 @@ function love.draw()
     love.graphics.setColor(1,1,1)
     love.graphics.print("Score: " .. score, 30, 30)
 
-    if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset) 
+    if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset)
     or (objects.ball.body:getY() <= -100) or (objects.ball.body:getX() >= windowHeight + 100) then
         --loss = true
     end
 
+    love.graphics.setFont(Font)
+    love.graphics.print("Top Score: " .. topScore, 1720,30)
 
     if loss then
         love.graphics.setFont(FontLarge)
@@ -183,6 +185,16 @@ end
 
 
 function initialiseGlobalVariables()
+
+    if topScore == nil then
+        topScore = 2000
+    end
+    if score ~= nil then
+        if score > topScore then
+            topScore = score
+        end
+    end
+
     love.physics.setMeter(64)
     world = love.physics.newWorld(0,9.81*64,true)
     objects = {}
@@ -198,6 +210,8 @@ function initialiseGlobalVariables()
     globalTime = 0
     boxScreens = 2
     ropeExists = false
+
+
 
     startTime = 0
 
