@@ -39,8 +39,9 @@ end
 function removeRope()
     readyToDraw = false
     contractingRope = false
-    objects.rope.joint:destroy()
-    objects.rope.body:destroy()
+    if objects.rope.body ~= nil then
+        objects.rope.body:destroy()
+    end
 end
 
 function drawRope()
