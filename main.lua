@@ -69,7 +69,7 @@ function love.update(dt)
     else
         hspeed, vspeed = objects.ball.body:getLinearVelocity()
         if hspeed > 0 then
-            globalHspeed = baseSpeed
+            globalHspeed = (hspeed + baseSpeed) / 2
         else
             globalHspeed = baseSpeed
         end
