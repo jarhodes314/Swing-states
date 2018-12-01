@@ -96,6 +96,10 @@ function love.draw()
     love.graphics.translate(-globalHOffset,0)
     love.graphics.setColor(1,1,1)
     love.graphics.print("Score: " .. score, 30, 30)
+
+    if loss then
+        love.graphics.print("You lose", 300,300)
+    end
 end
 
 
@@ -169,5 +173,14 @@ function initialiseGlobalVariables()
     boxScreens = 2
     ropeExists = false
 
+    loss = false
+
     score = 0
+end
+
+function beginContact(a, b, coll)
+    if a:getShape() == CircleShape or b.getShape() == CircleShape then
+        loss = true
+        love.graphics.print("You lose", 300,300)
+    end
 end
