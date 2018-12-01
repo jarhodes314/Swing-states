@@ -22,6 +22,7 @@ function love.load()
     shoot = love.audio.newSource("shoot.wav", 'static')
     Font = love.graphics.newFont("font.ttf", 18)
     love.graphics.setFont(Font)
+    world:setCallbacks(beginContact)
 end
 
 function love.update(dt)
@@ -183,7 +184,7 @@ function initialiseGlobalVariables()
 end
 
 function beginContact(a, b, coll)
-    if a:getShape() == CircleShape or b.getShape() == CircleShape then
+    if a:getShape():typeOf("PolygonShape") and b:getShape():typeOf("CircleShape") then
         loss = true
         love.graphics.print("You lose", 300,300)
     end
