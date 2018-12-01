@@ -20,9 +20,11 @@ function love.load()
     generateBoxes(0, 0, windowWidth * 1 / 3, windowHeight, 0, 0)
     generateBoxes(nw - 1, nh, windowWidth * 2 / 3, windowHeight, windowWidth / 3, 0)
     generateBoxes(nw, nh, windowWidth, windowHeight, windowWidth, 0)
-    music = love.audio.newSource("bgm.mp3", 'stream')
-    music:setLooping(true)
-    love.audio.play(music)
+    if music == nil then
+        music = love.audio.newSource("bgm.mp3", 'stream')
+        music:setLooping(true)
+        love.audio.play(music)
+    end
     shoot = love.audio.newSource("shoot.wav", 'static')
     Font = love.graphics.newFont("font.ttf", 18)
     love.graphics.setFont(Font)
@@ -109,7 +111,7 @@ function love.draw()
     love.graphics.setColor(1,1,1)
     love.graphics.print("Score: " .. score, 30, 30)
 
-    if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset) 
+    if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset)
     or (objects.ball.body:getY() <= -100) or (objects.ball.body:getY() >= windowHeight + 100) then
         loss = true
     end
@@ -136,7 +138,6 @@ end
 
 function love.mousepressed(x,y,button, istouch, presses)
     if loss then
-        love.audio.stop(music)
         love.load()
     elseif presses == 2 then
         removeRope()
