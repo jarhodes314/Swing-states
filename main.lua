@@ -20,8 +20,6 @@ function love.update(dt)
     if love.mouse.isDown(1) then
         if not readyToDraw then
             shootRope()
-        else
-            removeRope()
         end
     end
     world:update(dt)
@@ -46,6 +44,7 @@ function love.keypressed(key)
         love.event.quit()
     end
 end
+
 
 function initialiseGlobalVariables()
     love.physics.setMeter(64)

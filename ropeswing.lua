@@ -9,12 +9,12 @@ end
 
 function removeRope()
     readyToDraw = false
-    objects.rope.body:destroy()
     objects.rope.joint:destroy()
+    objects.rope.body:destroy()
 end
 
 function drawRope()
-    love.graphics.line(objects.ball.body:getX(), objects.ball.body:getY(), xPos, yPos)
+    love.graphics.line(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY())
 end
 
 function extendLine(x1,y1,x2,y2)
