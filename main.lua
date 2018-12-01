@@ -109,15 +109,9 @@ function love.draw()
     love.graphics.setColor(1,1,1)
     love.graphics.print("Score: " .. score, 30, 30)
 
-<<<<<<< HEAD
-    if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset)
-    or (objects.ball.body:getY() <= -100) or (objects.ball.body:getX() >= windowHeight + 100) then
-        --loss = true
-=======
     if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset) 
     or (objects.ball.body:getY() <= -100) or (objects.ball.body:getY() >= windowHeight + 100) then
         loss = true
->>>>>>> d438431cbeb1009fbecb1cd7b1648f2897867c23
     end
 
     love.graphics.setFont(Font)
