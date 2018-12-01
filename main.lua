@@ -33,8 +33,8 @@ function love.update(dt)
         contractingRope = false
     end
     --Cut rope if mouse has crossed rope
+    xNewMouse, yNewMouse = love.mouse.getPosition()
     if readyToDraw then
-        xNewMouse, yNewMouse = love.mouse.getPosition()
         cross, xCross, yCross = segmentIntersection(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), xPriorMouse, yPriorMouse, xNewMouse, yNewMouse)
         if cross then
             removeRope()
