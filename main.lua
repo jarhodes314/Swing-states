@@ -100,6 +100,10 @@ function love.draw()
     if loss then
         love.graphics.print("You lose", 300,300)
     end
+
+    if (objects.ball.body:getX() <= -100) or (objects.ball.body:getY() >= 1180) then
+        loss = true
+    end
 end
 
 
