@@ -110,8 +110,8 @@ function love.draw()
     love.graphics.print("Score: " .. score, 30, 30)
 
     if (objects.ball.body:getX() <= -100 -globalHOffset) or (objects.ball.body:getX() >= windowWidth - globalHOffset) 
-    or (objects.ball.body:getY() <= -100) or (objects.ball.body:getX() >= windowHeight + 100) then
-        --loss = true
+    or (objects.ball.body:getY() <= -100) or (objects.ball.body:getY() >= windowHeight + 100) then
+        loss = true
     end
 
 
