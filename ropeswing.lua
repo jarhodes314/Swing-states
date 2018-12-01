@@ -1,7 +1,9 @@
-function shootRope()
+function shootRope(x,y)
     objects.rope = { }
     xPos, yPos = love.mouse.getPosition()
     xPos = xPos - globalHOffset
+    xPos = x or xPos
+    yPos = y or yPos
     ballX = objects.ball.body:getX()
     ballY = objects.ball.body:getY()
     mouseLine = { p = {x = ballX, y = ballY}, d = {x = xPos - ballX, y = yPos - ballY} }
