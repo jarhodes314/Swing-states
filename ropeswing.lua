@@ -1,4 +1,5 @@
 function shootRope(x,y)
+    startTime = globalTime
     objects.rope = { }
     xPos, yPos = love.mouse.getPosition()
     xPos = xPos - globalHOffset
