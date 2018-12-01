@@ -33,7 +33,7 @@ function love.update(dt)
         contractingRope = false
     end
     --Cut rope if mouse has crossed rope
-    if readyToDraw and not objects.rope.body == nil then
+    if readyToDraw then
         xNewMouse, yNewMouse = love.mouse.getPosition()
         cross, xCross, yCross = segmentIntersection(objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), xPriorMouse, yPriorMouse, xNewMouse, yNewMouse)
         if cross then
@@ -50,7 +50,9 @@ end
 
 function love.draw()
     updatePosition()
-
+    if cross then
+        love.graphics.print("Hello World!", 400, 300)
+    end
     drawBoxes()
     if readyToDraw then
         drawRope()
