@@ -38,7 +38,7 @@ function love.update(dt)
 
     --Contract rope if condition set
     if contractingRope and readyToDraw then
-        objects.rope.length = objects.rope.length - 3 - baseSpeed * dt * 0.05
+        objects.rope.length = objects.rope.length - dt * 100 - (0.1 + baseSpeed * 0.001) * objects.rope.length * dt
         objects.rope.joint = love.physics.newRopeJoint(objects.ball.body, objects.rope.body, objects.ball.body:getX(), objects.ball.body:getY(), objects.rope.body:getX(), objects.rope.body:getY(), objects.rope.length)
         if objects.rope.length < 15 then
             removeRope()
