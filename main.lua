@@ -96,6 +96,9 @@ function love.update(dt)
         boxScreens = boxScreens + 1
     end
     globalHOffset = globalHOffset - globalHspeed * dt
+    if score > topScore then
+        topScore = score
+    end
 end
 
 function love.draw()
