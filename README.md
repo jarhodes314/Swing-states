@@ -9,4 +9,6 @@ Swing off the ceiling and blocks! But don't collide or go off-screen!
 
 Made by Henry and James using LOVE 2D.
 
+For a 10 hour game jam, for which the theme was "One-Button".
+
 ![screenshot](screenshot.png)
